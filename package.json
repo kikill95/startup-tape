@@ -4,19 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --inspect app.js",
     "test": "npm run test:standard && npm run test:tape",
     "test:standard": "standard --verbose | standard-tap",
     "test:standard:fix": "standard --fix --verbose | standard-tap",
-    "test:tape": "tape 'tests/**/*.js' | tap-notify | tap-dot"
+    "test:tape": "mongo testdb --eval \"db.dropDatabase();\" && MONGODB_URL='mongodb://localhost/testdb' tape 'tests/**/*.js' | tap-notify | tap-dot"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^1.12.1",
     "standard": "^10.0.3",
     "standard-tap": "^1.0.1",
+    "supertest": "^3.0.0",
     "tap-dot": "^1.0.5",
     "tap-notify": "^1.0.0",
     "tape": "^4.8.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.12"
   }
 }
