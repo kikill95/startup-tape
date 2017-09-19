@@ -28,7 +28,6 @@ test('GET /users should return empty array in the beginning', t => {
 })
 
 test('POST /users should create user', t => {
-  t.plan(1)
   // arrange
   let body = {
     user: {
@@ -52,17 +51,16 @@ test('POST /users should create user', t => {
 
       let result = res.body.user
       closure.id = result._id
-      delete result.__v
-      delete result._id
 
       // assert
-      t.deepEqual(result, body.user)
+      t.equal(result.age, body.user.age)
+      t.equal(result.name, body.user.name)
+      t.equal(result.surname, body.user.surname)
       t.end()
     })
 })
 
 test('PUT /users/:id should update user', t => {
-  t.plan(1)
   // arrange
   let updatedInfo = {
     user: {
@@ -89,7 +87,6 @@ test('PUT /users/:id should update user', t => {
 })
 
 test('DELETE /users/:id should remove user', t => {
-  t.plan(2)
   // arrange
 
   // act
@@ -105,20 +102,26 @@ test('DELETE /users/:id should remove user', t => {
 
       // assert
       t.equal(res.body.message, 'User removed')
+      t.end()
+    })
+})
 
-      request(app)
-        .get('/api/v1/users/' + closure.id)
-        .expect('Content-Type', /json/)
-        .expect(404)
-        .end((err, res) => {
-          if (err) {
-            t.fail(err)
-            return t.end()
-          }
+test('GET /users/:id should return Not Found', t => {
+  // arrange
 
-          // assert
-          t.equal(res.status, 404)
-          t.end()
-        })
+  // act
+  request(app)
+    .get('/api/v1/users/' + closure.id)
+    .expect('Content-Type', /json/)
+    .expect(404)
+    .end((err, res) => {
+      if (err) {
+        t.fail(err)
+        return t.end()
+      }
+
+      // assert
+      t.equal(res.status, 404)
+      t.end()
     })
 })
