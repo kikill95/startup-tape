@@ -8,12 +8,13 @@
     "test": "npm run test:standard && npm run test:tape",
     "test:standard": "standard --verbose | standard-tap",
     "test:standard:fix": "standard --fix --verbose | standard-tap",
-    "test:tape": "mongo testdb --eval \"db.dropDatabase();\" && MONGODB_URL='mongodb://localhost/testdb' tape 'tests/**/*.js' | tap-notify | tap-dot"
+    "test:tape": "mongo testdb --eval \"db.dropDatabase();\" && MONGODB_URL='mongodb://localhost/testdb' istanbul cover tape 'tests/**/*.js' | tap-notify | tap-dot"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "nodemon": "^1.12.1",
     "standard": "^10.0.3",
     "standard-tap": "^1.0.1",
